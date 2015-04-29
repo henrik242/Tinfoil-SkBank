@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.preferences;
+package no.synth.skbankwrapper.preferences;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,14 +25,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import com.danvelazco.fbwrapper.R;
+import no.synth.skbankwrapper.R;
 
 /**
  * Preferences activity
  *
  * TODO: use fragments-based preferences activity
  */
-public class FacebookPreferences extends PreferenceActivity {
+public class AppPreferences extends PreferenceActivity {
 
     // Custom preferences
     public final static String MENU_DRAWER_SHOWED_OPENED = "drawer_shown_opened";

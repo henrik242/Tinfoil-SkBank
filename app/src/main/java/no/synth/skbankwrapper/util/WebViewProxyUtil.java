@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.util;
+package no.synth.skbankwrapper.util;
 
 import android.content.Context;
 import android.content.Intent;

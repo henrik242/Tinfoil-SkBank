@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.activity;
+package no.synth.skbankwrapper.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -49,13 +49,13 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.danvelazco.fbwrapper.R;
-import com.danvelazco.fbwrapper.util.Logger;
-import com.danvelazco.fbwrapper.util.OrbotHelper;
-import com.danvelazco.fbwrapper.util.WebViewProxyUtil;
-import com.danvelazco.fbwrapper.webview.FacebookWebChromeClient;
-import com.danvelazco.fbwrapper.webview.FacebookWebView;
-import com.danvelazco.fbwrapper.webview.FacebookWebViewClient;
+import no.synth.skbankwrapper.R;
+import no.synth.skbankwrapper.util.Logger;
+import no.synth.skbankwrapper.util.OrbotHelper;
+import no.synth.skbankwrapper.util.WebViewProxyUtil;
+import no.synth.skbankwrapper.webview.AppWebChromeClient;
+import no.synth.skbankwrapper.webview.AppWebView;
+import no.synth.skbankwrapper.webview.AppWebViewClient;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -63,7 +63,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
- * Base activity that uses a {@link FacebookWebView} to load the Facebook
+ * Base activity that uses a {@link AppWebView} to load the Facebook
  * site in different formats. Here we can implement all the boilerplate code
  * that has to do with loading the activity as well as lifecycle events.
  * <p/>
@@ -71,22 +71,24 @@ import java.io.FileOutputStream;
  * See {@link #onWebViewInit(android.os.Bundle)}
  * See {@link #onResumeActivity()}
  */
-public abstract class BaseFacebookWebViewActivity extends Activity implements
-        FacebookWebViewClient.WebViewClientListener,
-        FacebookWebChromeClient.WebChromeClientListener {
+public abstract class BaseAppWebViewActivity extends Activity implements
+        AppWebViewClient.WebViewClientListener,
+        AppWebChromeClient.WebChromeClientListener {
 
     // Constants
-    private final static String LOG_TAG = "BaseFacebookWebViewActivity";
+    private final static String LOG_TAG = "BaseAppWebViewActivity";
     protected final static int RESULT_CODE_FILE_UPLOAD = 1001;
     protected final static int RESULT_CODE_FILE_UPLOAD_LOLLIPOP = 2001;
     protected static final String KEY_SAVE_STATE_TIME = "_instance_save_state_time";
     private static final int ID_CONTEXT_MENU_SAVE_IMAGE = 2981279;
-    protected final static String INIT_URL_MOBILE = "https://m.facebook.com";
-    protected final static String INIT_URL_DESKTOP = "https://www.facebook.com";
-    protected final static String INIT_URL_FACEBOOK_ZERO = "https://0.facebook.com";
-    protected final static String INIT_URL_FACEBOOK_ONION = "https://facebookcorewwwi.onion";
-    protected final static String URL_PAGE_NOTIFICATIONS = "/notifications.php";
-    protected final static String URL_PAGE_MESSAGES = "/messages";
+    protected final static String INIT_URL_MOBILE = "https://secure.skandiabanken.no";
+    protected final static String INIT_URL_DESKTOP = "https://secure.skandiabanken.no";
+    protected final static String INIT_URL_APP_ZERO = "https://secure.skandiabanken.no";
+    protected final static String INIT_URL_APP_ONION = "https://secure.skandiabanken.no";
+    protected final static String URL_PAGE_PAYMENT = "/Home/Payment/PaymentInsert";
+    protected final static String URL_PAGE_TOTAL = "/Home/Overview/Full";
+    protected final static String URL_PAGE_FAVORITES = "/Home/Overview/Favourites";
+    protected final static String URL_PAGE_ACCOUNTSTATEMENT = "/Home/AccountStatement";
 
     // URL for Sharing Links
     // u = url & t = title
@@ -107,7 +109,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
     // Members
     protected ConnectivityManager mConnectivityManager = null;
     protected CookieSyncManager mCookieSyncManager = null;
-    protected FacebookWebView mWebView = null;
+    protected AppWebView mWebView = null;
     protected ProgressBar mProgressBar = null;
     protected WebSettings mWebSettings = null;
     protected ValueCallback<Uri> mUploadMessage = null;
@@ -137,7 +139,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
 
     /**
      * Called when we are ready to start restoring or loading
-     * data in the {@link FacebookWebView}
+     * data in the {@link AppWebView}
      *
      * @param savedInstanceState {@link Bundle}
      */
@@ -161,7 +163,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
 
         mConnectivityManager = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
 
-        mWebView = (FacebookWebView) findViewById(R.id.webview);
+        mWebView = (AppWebView) findViewById(R.id.webview);
         mWebView.setCustomContentView((FrameLayout) findViewById(R.id.fullscreen_custom_content));
         mWebView.setWebChromeClientListener(this);
         mWebView.setWebViewClientListener(this);
@@ -287,7 +289,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
     }
 
     /**
-     * Set a proxy for the {@link com.danvelazco.fbwrapper.webview.FacebookWebView}
+     * Set a proxy for the {@link AppWebView}
      *
      * @param host {@link String}
      * @param port {@link int}
@@ -299,7 +301,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
     }
 
     /**
-     * Restore the state of the {@link FacebookWebView}
+     * Restore the state of the {@link AppWebView}
      *
      * @param inState {@link Bundle}
      */
@@ -322,16 +324,16 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
      *               true if we should use a custom user agent for mobile devices,
      *               false if not.
      */
-    protected void setUserAgent(boolean force, boolean mobile, boolean facebookBasic) {
-        if (force && mobile && !facebookBasic) {
+    protected void setUserAgent(boolean force, boolean mobile, boolean appBasic) {
+        if (force && mobile && !appBasic) {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 mWebSettings.setUserAgentString(USER_AGENT_MOBILE_OLD);
             } else {
                 mWebSettings.setUserAgentString(USER_AGENT_MOBILE);
             }
-        } else if (force && !mobile && !facebookBasic) {
+        } else if (force && !mobile && !appBasic) {
             mWebSettings.setUserAgentString(USER_AGENT_DESKTOP);
-        } else if (force && mobile && facebookBasic) {
+        } else if (force && mobile && appBasic) {
             mWebSettings.setUserAgentString(USER_AGENT_BASIC);
         } else {
             mWebSettings.setUserAgentString(null);
@@ -339,7 +341,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
     }
 
     /**
-     * Used to load a new URL in the {@link FacebookWebView}
+     * Used to load a new URL in the {@link AppWebView}
      *
      * @param url {@link String}
      */
@@ -378,14 +380,14 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
     }
 
     /**
-     * Used to change to change the behaviour of the {@link FacebookWebView}<br/>
-     * By default, this {@link FacebookWebView} will only open URLs in which the
-     * host is facebook.com, any other links should be sent to the default browser.<br/>
+     * Used to change to change the behaviour of the {@link AppWebView}<br/>
+     * By default, this {@link AppWebView} will only open predefined URLs,
+     * any other links should be sent to the default browser.<br/>
      * However, if the user wants to open the link inside this same webview, he could,
      * so in that case, make sure this flag is set to true.
      *
      * @param allow {@link boolean} true if any domain could be opened
-     *              on this webview, false if only facebook domains
+     *              on this webview, false if only predefined domains
      *              are allowed.
      */
     protected void setAllowAnyDomain(boolean allow) {
@@ -675,7 +677,7 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
 
         @Override
         public void onBitmapFailed(Drawable drawable) {
-            Toast.makeText(BaseFacebookWebViewActivity.this, getString(R.string.txt_save_image_failed),
+            Toast.makeText(BaseAppWebViewActivity.this, getString(R.string.txt_save_image_failed),
                     Toast.LENGTH_LONG).show();
         }
 
@@ -712,10 +714,10 @@ public abstract class BaseFacebookWebViewActivity extends Activity implements
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                Toast.makeText(BaseFacebookWebViewActivity.this, getString(R.string.txt_save_image_success),
+                Toast.makeText(BaseAppWebViewActivity.this, getString(R.string.txt_save_image_success),
                         Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(BaseFacebookWebViewActivity.this, getString(R.string.txt_save_image_failed),
+                Toast.makeText(BaseAppWebViewActivity.this, getString(R.string.txt_save_image_failed),
                         Toast.LENGTH_LONG).show();
             }
         }

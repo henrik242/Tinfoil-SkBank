@@ -20,7 +20,7 @@
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FacebookNewWrapper">
+    tools:context=".AppNewWrapper">
 
     <RelativeLayout
         android:id="@+id/webview_container"
@@ -28,7 +28,7 @@
         android:layout_height="match_parent">
 
         <!-- Our actual WebView -->
-        <com.danvelazco.fbwrapper.webview.FacebookWebView
+        <no.synth.skbankwrapper.webview.AppWebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

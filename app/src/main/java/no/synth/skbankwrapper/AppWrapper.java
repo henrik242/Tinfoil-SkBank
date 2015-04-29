@@ -1,4 +1,4 @@
-package com.danvelazco.fbwrapper;
+package no.synth.skbankwrapper;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,18 +15,19 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
-import com.danvelazco.fbwrapper.activity.BaseFacebookWebViewActivity;
-import com.danvelazco.fbwrapper.preferences.FacebookPreferences;
-import com.danvelazco.fbwrapper.util.Logger;
-import com.danvelazco.fbwrapper.util.OrbotHelper;
+import no.synth.skbankwrapper.activity.BaseAppWebViewActivity;
+import no.synth.skbankwrapper.preferences.AppPreferences;
+import no.synth.skbankwrapper.util.Logger;
+import no.synth.skbankwrapper.util.OrbotHelper;
+import no.synth.skbankwrapper.webview.AppWebView;
 
 /**
  * Facebook web wrapper activity.
  */
-public class FbWrapper extends BaseFacebookWebViewActivity {
+public class AppWrapper extends BaseAppWebViewActivity {
 
     // Constant
-    private final static String LOG_TAG = "FbWrapper";
+    private final static String LOG_TAG = "AppWrapper";
     private final static int MENU_DRAWER_GRAVITY = GravityCompat.END;
     protected final static int DELAY_RESTORE_STATE = (60 * 1000) * 30;
 
@@ -97,7 +98,7 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
 
         // Open the proper URL in case the user clicked on a link that brought us here
         if (intent.getData() != null) {
-            Logger.d(LOG_TAG, "Loading a specific Facebook URL a user " +
+            Logger.d(LOG_TAG, "Loading a specific predefined URL a user " +
                     "clicked on somewhere else");
             loadNewPage(intent.getData().toString());
             return;
@@ -120,7 +121,7 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
 
         if (loadInitialPage) {
             // Load the URL depending on the type of device or preference
-            Logger.d(LOG_TAG, "Loading the init Facebook URL");
+            Logger.d(LOG_TAG, "Loading the init URL");
             loadNewPage(mDomainToUse);
         }
 
@@ -156,9 +157,10 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
         findViewById(R.id.menu_drawer_right).setOnClickListener(buttonsListener);
         findViewById(R.id.menu_item_jump_to_top).setOnClickListener(buttonsListener);
         findViewById(R.id.menu_item_refresh).setOnClickListener(buttonsListener);
-        findViewById(R.id.menu_item_newsfeed).setOnClickListener(buttonsListener);
-        findViewById(R.id.menu_items_notifications).setOnClickListener(buttonsListener);
-        findViewById(R.id.menu_item_messages).setOnClickListener(buttonsListener);
+        findViewById(R.id.menu_item_total).setOnClickListener(buttonsListener);
+        findViewById(R.id.menu_item_payment).setOnClickListener(buttonsListener);
+        findViewById(R.id.menu_item_favorites).setOnClickListener(buttonsListener);
+        findViewById(R.id.menu_item_accountstatement).setOnClickListener(buttonsListener);
         findViewById(R.id.menu_share_this).setOnClickListener(buttonsListener);
         findViewById(R.id.menu_preferences).setOnClickListener(buttonsListener);
         findViewById(R.id.menu_about).setOnClickListener(buttonsListener);
@@ -211,7 +213,7 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
     /**
      * Set the preferences for this activity by using the
      * {@link PreferenceManager} to load the Default shared preferences.<br />
-     * Most preferences will be automatically set for the {@link com.danvelazco.fbwrapper.webview.FacebookWebView}.
+     * Most preferences will be automatically set for the {@link AppWebView}.
      */
     private void loadPreferences() {
 
@@ -221,12 +223,12 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
         }
 
         // Get the URL to load, check-in and proxy settings
-        boolean anyDomain = mSharedPreferences.getBoolean(FacebookPreferences.OPEN_LINKS_INSIDE, false);
-        boolean allowCheckins = mSharedPreferences.getBoolean(FacebookPreferences.ALLOW_CHECKINS, false);
-        boolean blockImages = mSharedPreferences.getBoolean(FacebookPreferences.BLOCK_IMAGES, false);
-        boolean enableProxy = mSharedPreferences.getBoolean(FacebookPreferences.KEY_PROXY_ENABLED, false);
-        String proxyHost = mSharedPreferences.getString(FacebookPreferences.KEY_PROXY_HOST, null);
-        String proxyPort = mSharedPreferences.getString(FacebookPreferences.KEY_PROXY_PORT, null);
+        boolean anyDomain = mSharedPreferences.getBoolean(AppPreferences.OPEN_LINKS_INSIDE, false);
+        boolean allowCheckins = mSharedPreferences.getBoolean(AppPreferences.ALLOW_CHECKINS, false);
+        boolean blockImages = mSharedPreferences.getBoolean(AppPreferences.BLOCK_IMAGES, false);
+        boolean enableProxy = mSharedPreferences.getBoolean(AppPreferences.KEY_PROXY_ENABLED, false);
+        String proxyHost = mSharedPreferences.getString(AppPreferences.KEY_PROXY_HOST, null);
+        String proxyPort = mSharedPreferences.getString(AppPreferences.KEY_PROXY_PORT, null);
 
         // Set the flags for loading URLs, allowing geolocation and loading network images
         setAllowCheckins(allowCheckins);
@@ -250,45 +252,45 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
         }
 
         // Whether the site should be loaded as the mobile or desktop version
-        String mode = mSharedPreferences.getString(FacebookPreferences.SITE_MODE,
-                FacebookPreferences.SITE_MODE_AUTO);
+        String mode = mSharedPreferences.getString(AppPreferences.SITE_MODE,
+                AppPreferences.SITE_MODE_AUTO);
 
         // TODO: time to fix this mess
         // Force or detect the site mode to load
-        if (mode.equalsIgnoreCase(FacebookPreferences.SITE_MODE_MOBILE)) {
+        if (mode.equalsIgnoreCase(AppPreferences.SITE_MODE_MOBILE)) {
             // Force the webview config to mobile
-            setupFacebookWebViewConfig(true, true, false, false, false);
-        } else if (mode.equalsIgnoreCase(FacebookPreferences.SITE_MODE_DESKTOP)) {
+            setupAppWebViewConfig(true, true, false, false, false);
+        } else if (mode.equalsIgnoreCase(AppPreferences.SITE_MODE_DESKTOP)) {
             // Force the webview config to desktop mode
-            setupFacebookWebViewConfig(true, false, false, false, false);
-        } else if (mode.equalsIgnoreCase(FacebookPreferences.SITE_MODE_ZERO)) {
+            setupAppWebViewConfig(true, false, false, false, false);
+        } else if (mode.equalsIgnoreCase(AppPreferences.SITE_MODE_ZERO)) {
             // Force the webview config to zero mode
-            setupFacebookWebViewConfig(false, true, false, true, false);
-        } else if (mode.equalsIgnoreCase(FacebookPreferences.SITE_MODE_BASIC)) {
+            setupAppWebViewConfig(false, true, false, true, false);
+        } else if (mode.equalsIgnoreCase(AppPreferences.SITE_MODE_BASIC)) {
             // Force the webview to load the Basic HTML Mobile site
-            setupFacebookWebViewConfig(true, true, true, false, false);
-        } else if (mode.equalsIgnoreCase(FacebookPreferences.SITE_MODE_ONION)) {
+            setupAppWebViewConfig(true, true, true, false, false);
+        } else if (mode.equalsIgnoreCase(AppPreferences.SITE_MODE_ONION)) {
             // Force the webview to load Facebook via Tor (onion network)
-            setupFacebookWebViewConfig(true, true, false, false, true);
+            setupAppWebViewConfig(true, true, false, false, true);
         } else {
             // Do not force, allow us to auto-detect what mode to use
-            setupFacebookWebViewConfig(false, true, false, false, false);
+            setupAppWebViewConfig(false, true, false, false, false);
         }
 
         // If we haven't shown the new menu drawer to the user, auto open it
-        if (!mSharedPreferences.getBoolean(FacebookPreferences.MENU_DRAWER_SHOWED_OPENED, false)) {
+        if (!mSharedPreferences.getBoolean(AppPreferences.MENU_DRAWER_SHOWED_OPENED, false)) {
             openMenuDrawer();
 
             // Make sure we don't auto-open the menu ever again
             SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putBoolean(FacebookPreferences.MENU_DRAWER_SHOWED_OPENED, true);
+            editor.putBoolean(AppPreferences.MENU_DRAWER_SHOWED_OPENED, true);
             editor.apply();
         }
 
     }
 
     /**
-     * Configure this {@link com.danvelazco.fbwrapper.webview.FacebookWebView}
+     * Configure this {@link AppWebView}
      * with the appropriate preferences depending on the device configuration.<br />
      * Use the 'force' flag to force the configuration to either mobile or desktop.
      *
@@ -297,21 +299,21 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
      *               if false the 'mobile' flag will be ignored
      * @param mobile {@link boolean}
      *               whether to use the mobile or desktop site.
-     * @param facebookZero {@link boolean}
+     * @param appZero {@link boolean}
      *               whether or not to use Facebook Zero
      */
     // TODO: time to fix this mess
-    private void setupFacebookWebViewConfig(boolean force, boolean mobile, boolean facebookBasic,
-                                            boolean facebookZero, boolean facebookOnion) {
+    private void setupAppWebViewConfig(boolean force, boolean mobile, boolean facebookBasic,
+                                       boolean appZero, boolean appOnion) {
         if (force && !mobile) {
             // Force the desktop site to load
             mDomainToUse = INIT_URL_DESKTOP;
-        } else if (facebookZero) {
+        } else if (appZero) {
             // If Facebook zero is set, use that
-            mDomainToUse = INIT_URL_FACEBOOK_ZERO;
-        } else if (facebookOnion) {
+            mDomainToUse = INIT_URL_APP_ZERO;
+        } else if (appOnion) {
             // If the Onion domain is set, use that
-            mDomainToUse = INIT_URL_FACEBOOK_ONION;
+            mDomainToUse = INIT_URL_APP_ONION;
         } else {
             // Otherwise, just load the mobile site for all devices
             mDomainToUse = INIT_URL_MOBILE;
@@ -363,20 +365,23 @@ public class FbWrapper extends BaseFacebookWebViewActivity {
                 case R.id.menu_item_refresh:
                     refreshCurrentPage();
                     break;
-                case R.id.menu_item_newsfeed:
-                    loadNewPage(mDomainToUse);
+                case R.id.menu_item_payment:
+                    loadNewPage(mDomainToUse + URL_PAGE_PAYMENT);
                     break;
-                case R.id.menu_items_notifications:
-                    loadNewPage(mDomainToUse + URL_PAGE_NOTIFICATIONS);
+                case R.id.menu_item_favorites:
+                    loadNewPage(mDomainToUse + URL_PAGE_FAVORITES);
                     break;
-                case R.id.menu_item_messages:
-                    loadNewPage(mDomainToUse + URL_PAGE_MESSAGES);
+                case R.id.menu_item_total:
+                    loadNewPage(mDomainToUse + URL_PAGE_TOTAL);
+                    break;
+                case R.id.menu_item_accountstatement:
+                    loadNewPage(mDomainToUse + URL_PAGE_ACCOUNTSTATEMENT);
                     break;
                 case R.id.menu_share_this:
                     shareCurrentPage();
                     break;
                 case R.id.menu_preferences:
-                    startActivity(new Intent(FbWrapper.this, FacebookPreferences.class));
+                    startActivity(new Intent(AppWrapper.this, AppPreferences.class));
                     break;
                 case R.id.menu_about:
                     showAboutAlert();

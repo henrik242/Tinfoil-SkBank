@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.util;
+package no.synth.skbankwrapper.util;
 
 import android.util.Log;
-import com.danvelazco.fbwrapper.BuildConfig;
+import no.synth.skbankwrapper.BuildConfig;
 
 /**
  * Logger wrapper class to handle {@link android.util.Log} depending on debug level.

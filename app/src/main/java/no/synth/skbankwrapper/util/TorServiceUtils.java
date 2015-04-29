@@ -1,4 +1,4 @@
-package com.danvelazco.fbwrapper.util;
+package no.synth.skbankwrapper.util;
 
 import android.util.Log;
 

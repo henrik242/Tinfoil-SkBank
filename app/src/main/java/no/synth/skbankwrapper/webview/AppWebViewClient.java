@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.webview;
+package no.synth.skbankwrapper.webview;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -23,14 +23,14 @@ import android.view.KeyEvent;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import com.danvelazco.fbwrapper.util.Logger;
+import no.synth.skbankwrapper.util.Logger;
 
 /**
  * FacebookWebViewClient.<br/>
  * Extends {@link android.webkit.WebViewClient}.<br/>
- * Used by {@link FacebookWebView}.
+ * Used by {@link AppWebView}.
  */
-public class FacebookWebViewClient extends WebViewClient {
+public class AppWebViewClient extends WebViewClient {
 
     // Members
     private WebViewClientListener mListener = null;
@@ -119,8 +119,8 @@ public class FacebookWebViewClient extends WebViewClient {
 
         if (domain != null) {
             // Let this WebView open the URL
-            // TODO: Check the proper domain names that facebook uses or find another way
-            if (domain.contains("facebook") || domain.contains("fb")) {
+            // TODO: Check the proper domain names or find another way
+            if (domain.contains("skandiabanken") || domain.contains("skbank")) {
                 Logger.d(getClass().getSimpleName(), "This URL should be loaded internally. Let it load.");
                 view.loadUrl(url);
                 return false;

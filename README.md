@@ -1,12 +1,12 @@
-# Tinfoil for Facebook
+# Tinfoil for SkBank
 
-## Description (from F-Droid)
+This is an app wrapper for SkBank's mobile web site, for those of you who cannot use the native app.
 
-Browse Facebook's mobile web site with a simple web browser, which is completely sandboxed in order to protect your privacy by avoiding other pages to track your browsing history.
+Based on Daniel Velazco's excellent [Tinfoil for Facebook](https://github.com/velazcod/Tinfoil-Facebook).
 
-The COARSE_LOCATION permission is only used if you enable "Allow Check-ins" on the preferences section, which is disabled by default.
+## Building
 
-## Download
-
-* [Google Play Store](https://play.google.com/store/apps/details?id=com.danvelazco.fbwrapper)
-* [F-Droid](https://f-droid.org/repository/browse/?fdid=com.danvelazco.fbwrapper)
+* Install the [Android SDK](https://developer.android.com/sdk/installing/index.html).  Make sure that API 21, Build-tools 21.x and Android Support Repository are checked in the Android SDK Manager.
+* Set ANDROID_HOME, e.g. ``export ANDROID_HOME=/Users/myusername/Android/sdk``
+* Run ``./gradlew build``
+* Install ``./app/build/outputs/apk/app-debug.apk`` to your phone

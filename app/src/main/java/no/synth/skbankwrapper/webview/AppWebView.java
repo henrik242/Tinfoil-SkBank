@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.webview;
+package no.synth.skbankwrapper.webview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,11 +25,11 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 /**
- * FacebookWebView.<br/>
+ * AppWebView.<br/>
  * Extends {@link android.webkit.WebView}.<br/>
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class FacebookWebView extends WebView {
+public class AppWebView extends WebView {
 
     // Constants, default values for this WebView's configuration
     final boolean DEFAULT_JS_ENABLED = true;
@@ -50,15 +50,15 @@ public class FacebookWebView extends WebView {
     private boolean mInitialized = false;
     private Context mContext = null;
     private WebSettings mWebSettings = null;
-    private FacebookWebViewClient mWebViewClient = null;
-    private FacebookWebChromeClient mWebChromeClient = null;
+    private AppWebViewClient mWebViewClient = null;
+    private AppWebChromeClient mWebChromeClient = null;
 
     /**
      * Constructor.
      *
      * @param context {@link Context}
      */
-    public FacebookWebView(Context context) {
+    public AppWebView(Context context) {
         this(context, null);
     }
 
@@ -68,7 +68,7 @@ public class FacebookWebView extends WebView {
      * @param context {@link Context}
      * @param attrs   {@link AttributeSet}
      */
-    public FacebookWebView(Context context, AttributeSet attrs) {
+    public AppWebView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
@@ -79,7 +79,7 @@ public class FacebookWebView extends WebView {
      * @param attrs    {@link AttributeSet}
      * @param defStyle {@link int}
      */
-    public FacebookWebView(Context context, AttributeSet attrs, int defStyle) {
+    public AppWebView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         // Do not try to initialize anything if it's in edit mode (layout editor)
@@ -119,11 +119,11 @@ public class FacebookWebView extends WebView {
      */
     private void initializeWebView() {
         // Create a new instance of FutebolWebViewClient and keep a reference to it
-        mWebViewClient = new FacebookWebViewClient();
+        mWebViewClient = new AppWebViewClient();
         setWebViewClient(mWebViewClient);
 
         // New instance of FutebolWebChromeClient and keep a reference to it
-        mWebChromeClient = new FacebookWebChromeClient(mContext);
+        mWebChromeClient = new AppWebChromeClient(mContext);
         setWebChromeClient(mWebChromeClient);
 
         // Get a reference of this WebView's WebSettings
@@ -189,10 +189,10 @@ public class FacebookWebView extends WebView {
     /**
      * Set the listener for this WebChromeClient.
      *
-     * @param listener {@link FacebookWebChromeClient.WebChromeClientListener}. It must be
+     * @param listener {@link AppWebChromeClient.WebChromeClientListener}. It must be
      *                 in the Activity context.
      */
-    public void setWebChromeClientListener(FacebookWebChromeClient.WebChromeClientListener listener) {
+    public void setWebChromeClientListener(AppWebChromeClient.WebChromeClientListener listener) {
         if (!mInitialized || (mWebChromeClient == null)) {
             throw new IllegalStateException("The WebView must be initialized first.");
         }
@@ -217,10 +217,10 @@ public class FacebookWebView extends WebView {
     /**
      * Set the listener for this WebViewClient.
      *
-     * @param listener {@link FacebookWebViewClient.WebViewClientListener}. It must be
+     * @param listener {@link AppWebViewClient.WebViewClientListener}. It must be
      *                 in the Activity context.
      */
-    public void setWebViewClientListener(FacebookWebViewClient.WebViewClientListener listener) {
+    public void setWebViewClientListener(AppWebViewClient.WebViewClientListener listener) {
         if (!mInitialized || (mWebViewClient == null)) {
             throw new IllegalStateException("The WebView must be initialized first.");
         }

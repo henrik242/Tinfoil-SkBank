@@ -35,14 +35,6 @@
             android:summary="@string/prefs_block_images_sry"
             android:title="@string/prefs_block_images" />
 
-        <ListPreference
-            android:defaultValue="auto"
-            android:entries="@array/prefs_mobile_site_list"
-            android:entryValues="@array/prefs_mobile_site_list_values"
-            android:key="prefs_mobile_site"
-            android:summary="@string/prefs_mobile_site_sry"
-            android:title="@string/prefs_mobile_site" />
-
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_cat_proxy"

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.danvelazco.fbwrapper.webview;
+package no.synth.skbankwrapper.webview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,13 +28,13 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-import com.danvelazco.fbwrapper.R;
-import com.danvelazco.fbwrapper.util.Logger;
+import no.synth.skbankwrapper.R;
+import no.synth.skbankwrapper.util.Logger;
 
 /**
- * FacebookWebChromeClient.<br/> Extends {@link android.webkit.WebChromeClient}.<br/> Used by {@link FacebookWebView}.
+ * AppWebChromeClient.<br/> Extends {@link android.webkit.WebChromeClient}.<br/> Used by {@link AppWebView}.
  */
-public class FacebookWebChromeClient extends WebChromeClient {
+public class AppWebChromeClient extends WebChromeClient {
 
     // Members
     private Context mContext = null;
@@ -52,7 +52,7 @@ public class FacebookWebChromeClient extends WebChromeClient {
      * @param context
      *         {@link Context}
      */
-    public FacebookWebChromeClient(Context context) {
+    public AppWebChromeClient(Context context) {
         mContext = context;
     }
 

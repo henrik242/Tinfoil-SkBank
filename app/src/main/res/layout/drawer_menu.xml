@@ -122,9 +122,9 @@
 
         </RelativeLayout>
 
-        <!-- Menu item: News feed -->
+        <!-- Menu item: Payment -->
         <RelativeLayout
-            android:id="@+id/menu_item_newsfeed"
+            android:id="@+id/menu_item_payment"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_drawer_items_height"
             android:padding="@dimen/navigation_drawer_items_padding"
@@ -133,29 +133,29 @@
             android:background="?android:selectableItemBackground">
 
             <ImageView
-                android:id="@+id/iv_newsfeed"
+                android:id="@+id/iv_payment"
                 android:layout_width="@dimen/navigation_drawer_icon_size"
                 android:layout_height="@dimen/navigation_drawer_icon_size"
                 android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_view"
+                android:src="@android:drawable/ic_menu_agenda"
                 android:contentDescription="@string/menu_refresh" />
 
             <TextView
-                android:id="@+id/tv_newsfeed"
+                android:id="@+id/tv_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/iv_newsfeed"
+                android:layout_toRightOf="@+id/iv_payment"
                 android:layout_marginLeft="@dimen/navigation_drawer_items_icon_title_margin"
                 android:gravity="left"
                 style="@style/MenuDrawerTextStyle"
-                android:text="@string/menu_news_feed" />
+                android:text="@string/menu_payment" />
 
         </RelativeLayout>
 
-        <!-- Menu item: Notifications -->
+        <!-- Menu item: Favorites -->
         <RelativeLayout
-            android:id="@+id/menu_items_notifications"
+            android:id="@+id/menu_item_favorites"
             android:layout_width="match_parent"
             android:layout_height="@dimen/navigation_drawer_items_height"
             android:padding="@dimen/navigation_drawer_items_padding"
@@ -164,54 +164,85 @@
             android:background="?android:selectableItemBackground">
 
             <ImageView
-                android:id="@+id/iv_notifications"
+                android:id="@+id/iv_favorites"
+                android:layout_width="@dimen/navigation_drawer_icon_size"
+                android:layout_height="@dimen/navigation_drawer_icon_size"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/ic_menu_compass"
+                android:contentDescription="@string/menu_favorites" />
+
+            <TextView
+                android:id="@+id/tv_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_favorites"
+                android:layout_marginLeft="@dimen/navigation_drawer_items_icon_title_margin"
+                android:gravity="left"
+                style="@style/MenuDrawerTextStyle"
+                android:text="@string/menu_favorites" />
+
+        </RelativeLayout>
+
+        <!-- Menu item: All accounts -->
+        <RelativeLayout
+                android:id="@+id/menu_item_total"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_drawer_items_height"
+                android:padding="@dimen/navigation_drawer_items_padding"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackground">
+
+            <ImageView
+                    android:id="@+id/iv_total"
+                    android:layout_width="@dimen/navigation_drawer_icon_size"
+                    android:layout_height="@dimen/navigation_drawer_icon_size"
+                    android:layout_centerVertical="true"
+                    android:src="@android:drawable/ic_menu_more"
+                    android:contentDescription="@string/menu_refresh" />
+
+            <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/iv_total"
+                    android:layout_marginLeft="@dimen/navigation_drawer_items_icon_title_margin"
+                    android:gravity="left"
+                    style="@style/MenuDrawerTextStyle"
+                    android:text="@string/menu_total" />
+
+        </RelativeLayout>
+
+        <!-- Menu item: Account statement -->
+        <RelativeLayout
+            android:id="@+id/menu_item_accountstatement"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_drawer_items_height"
+            android:padding="@dimen/navigation_drawer_items_padding"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iv_accountstatement"
                 android:layout_width="@dimen/navigation_drawer_icon_size"
                 android:layout_height="@dimen/navigation_drawer_icon_size"
                 android:layout_centerVertical="true"
                 android:src="@android:drawable/ic_menu_info_details"
-                android:contentDescription="@string/menu_notifications" />
+                android:contentDescription="@string/menu_accountstatement" />
 
             <TextView
-                android:id="@+id/tv_notifications"
+                android:id="@+id/tv_accountstatement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/iv_notifications"
+                android:layout_toRightOf="@+id/iv_accountstatement"
                 android:layout_marginLeft="@dimen/navigation_drawer_items_icon_title_margin"
                 android:gravity="left"
                 style="@style/MenuDrawerTextStyle"
-                android:text="@string/menu_notifications" />
-
-        </RelativeLayout>
-
-        <!-- Menu item: Messages -->
-        <RelativeLayout
-            android:id="@+id/menu_item_messages"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/navigation_drawer_items_height"
-            android:padding="@dimen/navigation_drawer_items_padding"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackground">
-
-            <ImageView
-                android:id="@+id/iv_messages"
-                android:layout_width="@dimen/navigation_drawer_icon_size"
-                android:layout_height="@dimen/navigation_drawer_icon_size"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="@string/menu_messages" />
-
-            <TextView
-                android:id="@+id/tv_messages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/iv_messages"
-                android:layout_marginLeft="@dimen/navigation_drawer_items_icon_title_margin"
-                android:gravity="left"
-                style="@style/MenuDrawerTextStyle"
-                android:text="@string/menu_messages" />
+                android:text="@string/menu_accountstatement" />
 
         </RelativeLayout>
 
